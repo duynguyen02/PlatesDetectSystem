@@ -7,7 +7,7 @@ import function.helper as helper
 from app_utils import *
 from app_utils.threading_video_capture import ThreadingVideoCapture
 from service.database import get_approved_plate_by_id
-from service.mqtt import door
+from service.mqtt import door, jetson
 
 
 def run():
@@ -23,6 +23,7 @@ def run():
 
     cap = ThreadingVideoCapture(0)
 
+    # door state manager
     checked_plates = []
     open_at = None
     open_remain = 0
@@ -85,15 +86,18 @@ def run():
             print(remain)
             if remain <= 0:
                 open_at = None
+                open_remain = 0
                 checked_plates.clear()
                 print("Closing...")
-                door.close_the_door()
+                # door.close_the_door()
+                jetson.open()
 
         else:
             if len(checked_plates) > 0:
                 open_at = current_milli_time()
                 print("Opening...")
-                door.open_the_door()
+                # door.open_the_door()
+                jetson.close()
 
     cap.release()
     cv2.destroyAllWindows()

@@ -17,4 +17,4 @@ def run():
 
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(plate_bp, url_prefix='/approved_plates')
-    app.run(debug=True, port=int(HOST_PORT), use_reloader=False)
+    app.run(debug=False, port=int(HOST_PORT), use_reloader=False, host="0.0.0.0")

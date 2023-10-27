@@ -9,10 +9,18 @@ class Token:
         self.expireAt = expire_at
         self.refreshExpireAt = refresh_expire_at
 
+    def to_dict(self):
+        return {
+            "accessToken" : self.accessToken.decode("utf-8"),
+            "refreshToken" : self.refreshToken.decode("utf-8"),
+            "expireAt" : self.expireAt,
+            "refreshExpireAt" : self.refreshExpireAt
+        }
+
 
 class AppJWT:
     @staticmethod
-    def __verify(token: str, secret_key: str, algorithms: list[str]):
+    def __verify(token: str, secret_key: str, algorithms):
         try:
             payload = jwt.decode(token, secret_key, algorithms=algorithms)
             return payload['data']
@@ -51,3 +59,5 @@ class AppJWT:
 
     def verify_refresh_token(self, token: str):
         return AppJWT.__verify(token, self._refresh_secret_key, ['HS256'])
+
+

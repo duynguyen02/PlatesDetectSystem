@@ -29,8 +29,16 @@ apps = [
 
 
 def main():
-    init()
-    run_all_service(apps)
+    try:
+        init()
+        # management_server.run()
+        run_all_service(apps)
+    except Exception as e:
+        print(e)
+        from service.mqtt import jetson
+        jetson.clear()
+    
+
 
 
 if __name__ == '__main__':

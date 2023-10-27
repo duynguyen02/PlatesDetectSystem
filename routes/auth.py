@@ -24,8 +24,8 @@ def login():
             return jsonify({
                 "status": OK,
                 "message": "Đăng Nhập Thành Công!",
-                "data": token.__dict__
-            })
+                "data": token.to_dict()
+            }), OK
 
     return jsonify({
         "status": UNAUTHORIZED,
